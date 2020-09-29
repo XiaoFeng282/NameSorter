@@ -51,7 +51,7 @@ namespace NameSorterApplication.Comperers
                 }
 
                 // in case arr reached to the end of the loop that means they have all  the same first and given name
-                // continue to compare the length which one smaller will be the smaller value
+                // continue to compare the length the smaller one will be 
                 if (i == maximumNumberToLoop - 1)
                 {
                     if (objectA.NumberOfGivenName > objectB.NumberOfGivenName)
