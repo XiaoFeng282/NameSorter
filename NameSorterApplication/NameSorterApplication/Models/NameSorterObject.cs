@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NameSorterApplication.Models
 {
-    class NameSorterObject
+    public class NameSorterObject
     {
         public NameSorterObject()
         {
@@ -18,5 +18,7 @@ namespace NameSorterApplication.Models
         {
             get { return GivenNames.Count; }
         }
+
+        public string FullName => $"{string.Join(" ", GivenNames)} {LastName}";
     }
 }
