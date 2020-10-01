@@ -6,6 +6,6 @@ namespace NameSorterApplication.Comparers
 {
     public interface INameComparer<TModel>
     {
-        int CompareTo(TModel objectA, TModel objectB);
+        int Compare(TModel objectA, TModel objectB);
     }
 }

@@ -19,6 +19,16 @@ namespace NameSorterApplication.Sorters
 
         public void Sort(List<NameSorterObject> targetArray)
         {
+            if (targetArray == null)
+            {
+                throw new ArgumentNullException("Invalid array.");
+            }
+
+            if (targetArray.Count <= 1)
+            {
+                return;
+            }
+
             Devide(targetArray, 0, targetArray.Count - 1);
         }
 
@@ -52,7 +62,7 @@ namespace NameSorterApplication.Sorters
             int k;
             for (k = leftIndex; i < numberOfLeftArray && j < numberOfRightArray; k++)
             {
-                if (Comparer.CompareTo(leftArray[i], rightArray[j]) <= 0) 
+                if (Comparer.Compare(leftArray[i], rightArray[j]) <= 0) 
                 {
                     arr[k] = leftArray[i];
                     i++;

@@ -8,7 +8,7 @@ namespace NameSorterApplication.Comperers
 {
     public class NameComparer : INameComparer<NameSorterObject>
     {
-        public int CompareTo(NameSorterObject objectA, NameSorterObject objectB)
+        public int Compare(NameSorterObject objectA, NameSorterObject objectB)
         {
             if (objectA.LastName.CompareTo(objectB.LastName) > 0)
             {
@@ -31,7 +31,6 @@ namespace NameSorterApplication.Comperers
                 {
                     return -1;
                 }
-                
             }
 
             if (objectA.NumberOfGivenName > objectB.NumberOfGivenName)

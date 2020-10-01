@@ -21,69 +21,49 @@ namespace NameSorterApplication.Helpers
 
         public List<NameSorterObject> ReadFile()
         {
-            string file = TargetPathRead;
-            string nameString = "";
-            List<NameSorterObject> nameSorterObject = new List<NameSorterObject>();
-            if (File.Exists(file))
+            List<NameSorterObject> result = new List<NameSorterObject>();
+
+            using (FileStream fs = File.Open(TargetPathRead, FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite))
+            using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamReader sr = new StreamReader(bs))
             {
-                using (StreamReader streamReader = new StreamReader(file))
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    nameString = File.ReadAllText(file);
+                    if (line.Trim().Length > 0)
+                    {
+                        result.Add(MapDataToNameSorterObject(line));
+                    }
                 }
             }
-            if (!string.IsNullOrEmpty(nameString))
-            {
-                nameSorterObject = MapDataToNameSorterObject(nameString);
-            }
-            return nameSorterObject;
+            return result;
         }
 
         public void WriteFile(List<NameSorterObject> objects)
         {
-            string path = TargetPathWrite;
-            if (!File.Exists(path))
+            using (FileStream fs = File.Open(TargetPathWrite, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
+            using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamWriter wr = new StreamWriter(bs))
             {
-                using (StreamWriter sw = File.CreateText(path))
+                foreach (NameSorterObject item in objects)
                 {
-                    foreach (var item in objects)
-                    {
-                        sw.Write(String.Join(" ", item.GivenNames.ToArray()));
-                        sw.WriteLine($" {item.LastName}");
-                    }
+                    wr.WriteLine(item.FullName);
                 }
+                wr.Flush();
             }
-            else
-            {
-                using (StreamWriter sw = new StreamWriter(path))
-                {
-                    foreach (var item in objects)
-                    {
-                        sw.Write(String.Join(" ", item.GivenNames.ToArray()));
-                        sw.WriteLine($" {item.LastName}");
-                    }
-                }
-            }
+
         }
 
-        private static List<NameSorterObject> MapDataToNameSorterObject(string data)
+        private static NameSorterObject MapDataToNameSorterObject(string data)
         {
-            List<NameSorterObject> result = new List<NameSorterObject>();
-
-            string separator = "\r\n";
-            List<string> listStringNames = new List<string>(data.Split(separator, StringSplitOptions.RemoveEmptyEntries));
+            NameSorterObject result = new NameSorterObject();
             List<string> stringName;
-            NameSorterObject tempObject = new NameSorterObject();
-            foreach (var item in listStringNames)
+            stringName = new List<string>(data.Split(" ", StringSplitOptions.RemoveEmptyEntries));
+            if (stringName.Count > 0)
             {
-                stringName = new List<string>(item.Split(" ", StringSplitOptions.RemoveEmptyEntries));
-                if (stringName.Count > 0)
-                {
-                    tempObject.LastName = stringName[stringName.Count - 1];
-                    var a = stringName.Take(stringName.Count - 1).ToList();
-                    tempObject.GivenNames.AddRange(stringName.Take(stringName.Count - 1).ToList());
-                }
-                result.Add(tempObject);
-                tempObject = new NameSorterObject();
+                result.LastName = stringName[stringName.Count - 1];
+                var a = stringName.Take(stringName.Count - 1).ToList();
+                result.GivenNames.AddRange(stringName.Take(stringName.Count - 1).ToList());
             }
 
             return result;
