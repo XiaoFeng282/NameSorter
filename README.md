@@ -63,7 +63,7 @@ This interface represents for name comparing.
 
 This interface represents for name sorting.
 
-### IFilerHelper<>
+### IFileHelper<>
 
 This interface represents for read and write file.
 
