@@ -88,6 +88,14 @@ There are many improvement for this application following below:
 
 + Improving the performance of the application.
 
++ Improving the class naming.
+
+## Extendable
+
++ Able to create more type of sorting algorithms by creating new class then that class will inherit from ISorter<>.
+
++ Able to create more add logic by creating new comparer class then that class will inherit from INameComparer<>.
+
  
 Thanks for reading this.;)
 
